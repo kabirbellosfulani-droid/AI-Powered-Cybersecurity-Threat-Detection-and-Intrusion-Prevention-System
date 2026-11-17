@@ -1,0 +1,72 @@
+{
+  "train": {
+    "name": "NSL-KDD KDDTrain+",
+    "rows": 125973,
+    "columns": 45,
+    "features": 42,
+    "attack_rows": 58630,
+    "normal_rows": 67343,
+    "attack_ratio_pct": 46.54,
+    "missing_values": 0,
+    "duplicate_rows": 0,
+    "label_distribution": {
+      "Normal": 67343,
+      "DoS": 45927,
+      "Probe": 11656,
+      "R2L": 995,
+      "U2R": 52
+    },
+    "top_attack_types": {
+      "neptune": 41214,
+      "satan": 3633,
+      "ipsweep": 3599,
+      "portsweep": 2931,
+      "smurf": 2646,
+      "nmap": 1493,
+      "back": 956,
+      "teardrop": 892,
+      "warezclient": 890,
+      "pod": 201
+    },
+    "protocol_distribution": {
+      "tcp": 102689,
+      "udp": 14993,
+      "icmp": 8291
+    }
+  },
+  "test": {
+    "name": "NSL-KDD KDDTest+",
+    "rows": 22544,
+    "columns": 45,
+    "features": 42,
+    "attack_rows": 12833,
+    "normal_rows": 9711,
+    "attack_ratio_pct": 56.92,
+    "missing_values": 0,
+    "duplicate_rows": 0,
+    "label_distribution": {
+      "Normal": 9711,
+      "DoS": 7460,
+      "R2L": 2885,
+      "Probe": 2421,
+      "U2R": 67
+    },
+    "top_attack_types": {
+      "neptune": 4657,
+      "guess_passwd": 1231,
+      "mscan": 996,
+      "warezmaster": 944,
+      "apache2": 737,
+      "satan": 735,
+      "processtable": 685,
+      "smurf": 665,
+      "back": 359,
+      "snmpguess": 331
+    },
+    "protocol_distribution": {
+      "tcp": 18880,
+      "udp": 2621,
+      "icmp": 1043
+    }
+  }
+}

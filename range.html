@@ -1,0 +1,97 @@
+{% extends "layout.html" %}
+{% block title %}Virtual Cyber Range{% endblock %}
+{% block heading %}Virtual Cyber Range{% endblock %}
+{% block subheading %}Launch simulated attack campaigns · measure detection against known ground truth{% endblock %}
+
+{% block topbar %}
+  <span class="pill fw">9 attack playbooks · 5 benign services</span>
+{% endblock %}
+
+{% block content %}
+<div class="grid g32">
+  <!-- ---------------------------- launch panel ------------------------- -->
+  <div class="card">
+    <h3>① Configure the exercise</h3>
+    <div class="grid g3" style="gap:12px">
+      <div class="field">
+        <label>Events to generate</label>
+        <input type="number" id="n-events" value="1500" min="50" max="6000" step="50"/>
+      </div>
+      <div class="field">
+        <label>Attack rate · <span class="mono" id="rate-label">15%</span></label>
+        <input type="range" id="attack-rate" min="2" max="60" value="15"/>
+      </div>
+      <div class="field">
+        <label>Random seed</label>
+        <input type="text" id="seed" value="42"/>
+      </div>
+    </div>
+    <div class="row" style="margin-top:6px">
+      <button class="btn primary" id="run-btn">▶ Run cyber-range exercise</button>
+      <button class="btn ghost sm" id="random-seed">🎲 Randomise seed</button>
+      <span class="mini" id="run-status"></span>
+    </div>
+    <pre style="margin-top:14px"><span class="hl">$ python src/generate_simulation.py</span>
+  generating 1500 flows  (≈15% malicious)
+  scoring with RandomForest + IsolationForest
+  correlating signature rules (Suricata-style)
+  building alerts · writing outputs/alerts.csv</pre>
+    <div class="hint" style="margin-top:10px">
+      Every malicious flow carries a <b>ground-truth label</b>, so the report below
+      shows real detection rates per attack scenario — no cherry-picking.
+    </div>
+  </div>
+
+  <!-- ---------------------------- results ------------------------------ -->
+  <div class="card">
+    <h3>② Exercise report</h3>
+    <div class="grid g2" style="gap:10px">
+      <div class="stat-inline" style="flex-direction:column;gap:10px">
+        <div>Precision<b id="r-precision">—</b></div>
+        <div>Recall<b id="r-recall">—</b></div>
+        <div>F1 score<b id="r-f1">—</b></div>
+      </div>
+      <div class="stat-inline" style="flex-direction:column;gap:10px">
+        <div>Flows scored<b id="r-events">—</b></div>
+        <div>True attacks<b id="r-truth">—</b></div>
+        <div>Alerts raised<b id="r-alerts">—</b></div>
+      </div>
+    </div>
+    <h3 style="margin-top:16px">Confusion matrix (live run)</h3>
+    <div id="r-cm"></div>
+  </div>
+</div>
+
+<div class="card" style="margin-top:14px">
+  <h3>③ Detection rate by attack scenario <span class="hint">— how much of each attack campaign the engine caught</span></h3>
+  <div id="r-scenarios"><div class="empty">Run an exercise to populate this report.</div></div>
+</div>
+
+<div class="card" style="margin-top:14px">
+  <h3>④ Verdicts — ground truth vs model decision <span class="hint">— the last 400 flows of the run</span></h3>
+  <div class="row" style="margin-bottom:10px">
+    <span class="mini">✓ correct detection</span><span class="mini">✗ miss</span><span class="mini">⚠ false alarm</span>
+  </div>
+  <div class="scroll" style="max-height:380px">
+    <table><thead><tr><th>Time</th><th>Source</th><th>Target</th><th>Service</th>
+      <th>Scenario (truth)</th><th>Truth</th><th>Model verdict</th><th>Risk</th><th>Anomaly score</th><th>Evidence</th></tr></thead>
+      <tbody id="r-verdicts"><tr><td colspan="10" class="empty">No run yet</td></tr></tbody></table>
+  </div>
+</div>
+
+<h3 class="section-title">⑤ Attack scenario library — what the range can simulate</h3>
+<div class="grid g3" id="scenario-cards">
+  {% for s in scenarios %}
+  <div class="scenario">
+    <div class="row sp"><h4>{{ s.name }}</h4>{{ '' }}<span class="chip sev-{{ s.severity }}">{{ s.severity }}</span></div>
+    <div class="tool">🛠 {{ s.tool }}</div>
+    <div class="mini" style="margin-bottom:8px">{{ s.description }}</div>
+    <div class="mini" style="color:#8ea3c4"><b>Observable indicators</b></div>
+    <ul>{% for i in s.indicators %}<li>{{ i }}</li>{% endfor %}</ul>
+    <div style="margin-top:8px"><span class="tag">family: {{ s.family }}</span></div>
+  </div>
+  {% endfor %}
+</div>
+{% endblock %}
+
+{% block scripts %}<script src="/static/js/range.js"></script>{% endblock %}

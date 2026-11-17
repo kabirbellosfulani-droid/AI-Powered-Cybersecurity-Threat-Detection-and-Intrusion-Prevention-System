@@ -1,0 +1,19 @@
+{
+  "clean_report": {
+    "rows_in": 125973,
+    "rows_out": 125973,
+    "missing_filled": 0,
+    "duplicates_removed": 0
+  },
+  "n_features_raw": 54,
+  "n_features_encoded": 135,
+  "class_distribution": {
+    "Normal": 67343,
+    "DoS": 45927,
+    "Probe": 11656,
+    "R2L": 995,
+    "U2R": 52
+  },
+  "train_rows": 100778,
+  "test_rows": 25195
+}

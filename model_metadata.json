@@ -1,0 +1,35 @@
+{
+  "model_version": "1.0.0",
+  "trained_at": "2026-10-15 19:38:57",
+  "algorithm": "RandomForestClassifier",
+  "anomaly_algorithm": "IsolationForest",
+  "classes": [
+    "DoS",
+    "Normal",
+    "Probe",
+    "R2L",
+    "U2R"
+  ],
+  "n_features_encoded": 135,
+  "n_train_samples": 100778,
+  "n_test_samples": 25195,
+  "hyperparameters": {
+    "random_forest": {
+      "n_estimators": 200,
+      "max_depth": null,
+      "min_samples_split": 2,
+      "min_samples_leaf": 1,
+      "n_jobs": -1,
+      "class_weight": "balanced_subsample",
+      "random_state": 42
+    },
+    "isolation_forest": {
+      "n_estimators": 200,
+      "contamination": 0.15,
+      "random_state": 42,
+      "n_jobs": -1
+    }
+  },
+  "anomaly_threshold": 0.5441172793519609,
+  "anomaly_threshold_percentile": 99
+}

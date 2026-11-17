@@ -1,0 +1,118 @@
+{% extends "layout.html" %}
+{% block title %}Live Dashboard{% endblock %}
+{% block heading %}Live Threat Detection Dashboard{% endblock %}
+{% block subheading %}Real-time scoring of network flows · RandomForest + IsolationForest + signature rules{% endblock %}
+
+{% block topbar %}
+  <span class="pill {{ 'live' if true }}" id="stream-pill"><span class="dot"></span> <span id="stream-label">streaming</span></span>
+  <button class="btn primary sm" id="toggle-stream">⏸ Pause stream</button>
+  <button class="btn sm" id="burst-btn">⚡ Inject attack burst</button>
+  <button class="btn danger sm" id="reset-btn">↺ Reset</button>
+{% endblock %}
+
+{% block content %}
+<!-- ================================ KPI ROW ============================ -->
+<div class="grid g5" id="kpis">
+  <div class="card kpi blue"><div class="glow"></div>
+    <div class="label">Events scanned</div><div class="value" id="k-events">0</div>
+    <div class="delta" id="k-events-sub">flows analysed by the engine</div></div>
+  <div class="card kpi red"><div class="glow"></div>
+    <div class="label">Threats detected</div><div class="value" id="k-attacks">0</div>
+    <div class="delta" id="k-attacks-sub">malicious flows flagged</div></div>
+  <div class="card kpi amber"><div class="glow"></div>
+    <div class="label">Alerts raised</div><div class="value" id="k-alerts">0</div>
+    <div class="delta" id="k-alerts-sub">critical: 0 · high: 0</div></div>
+  <div class="card kpi"><div class="glow"></div>
+    <div class="label">Detection rate (recall)</div><div class="value" id="k-recall">—</div>
+    <div class="delta" id="k-recall-sub">of real attacks caught</div></div>
+  <div class="card kpi purple"><div class="glow"></div>
+    <div class="label">Precision / F1</div><div class="value" id="k-pf">—</div>
+    <div class="delta">alert quality vs coverage</div></div>
+</div>
+
+<!-- ============================== MAIN CHARTS ========================== -->
+<div class="grid g23" style="margin-top:14px">
+  <div class="card">
+    <h3>Live traffic timeline <span class="hint">— flows, true attacks and model alerts per ingest tick</span></h3>
+    <div id="chart-timeline"></div>
+  </div>
+  <div class="card">
+    <h3>Threat classification mix</h3>
+    <div id="chart-family" style="display:flex;flex-direction:column;align-items:center"></div>
+  </div>
+</div>
+
+<div class="grid g3" style="margin-top:14px">
+  <div class="card">
+    <h3>Detection quality gauges</h3>
+    <div class="grid g3" style="gap:4px">
+      <div id="g-precision"></div><div id="g-recall"></div><div id="g-f1"></div>
+    </div>
+    <div class="kv" style="margin-top:8px;grid-template-columns:120px 1fr">
+      <span class="k">Avg risk score</span><span class="v" id="k-risk">0</span>
+      <span class="k">True positives</span><span class="v" id="k-tp">0</span>
+      <span class="k">False positives</span><span class="v" id="k-fp">0</span>
+      <span class="k">Missed attacks</span><span class="v" id="k-fn">0</span>
+    </div>
+  </div>
+  <div class="card">
+    <h3>Alerts by severity</h3>
+    <div id="chart-severity"></div>
+    <h3 style="margin-top:16px">Top alerting source IPs</h3>
+    <div id="chart-srcip"></div>
+  </div>
+  <div class="card">
+    <h3>Most targeted internal assets</h3>
+    <div id="chart-dstip"></div>
+    <h3 style="margin-top:16px">Live confusion matrix</h3>
+    <div id="chart-cm"></div>
+  </div>
+</div>
+
+<!-- ============================== ALERT FEED ========================== -->
+<div class="card" style="margin-top:14px">
+  <div class="row sp" style="margin-bottom:10px">
+    <h3 style="margin:0">🚨 Live alert feed <span class="hint">— every flagged flow with evidence &amp; response playbook</span></h3>
+    <div class="row">
+      <select id="sev-filter" style="width:150px">
+        <option value="ALL">All severities</option>
+        <option>CRITICAL</option><option>HIGH</option><option>MEDIUM</option>
+        <option>LOW</option><option>INFO</option>
+      </select>
+      <button class="btn sm ghost" id="refresh-btn">↻ Refresh</button>
+    </div>
+  </div>
+  <div class="scroll">
+    <table id="alert-table">
+      <thead><tr>
+        <th>Time</th><th>Sev</th><th>Threat class</th><th>Source → Target</th><th>Service</th>
+        <th>Risk</th><th>Conf.</th><th>MITRE ATT&amp;CK</th><th>Evidence</th>
+      </tr></thead>
+      <tbody id="alert-body"><tr><td colspan="9" class="empty">Waiting for first events…</td></tr></tbody>
+    </table>
+  </div>
+</div>
+
+<div class="grid g2" style="margin-top:14px">
+  <div class="card">
+    <h3>Flow monitor <span class="hint">— every scored connection, benign and malicious</span></h3>
+    <div class="scroll" style="max-height:330px">
+      <table><thead><tr><th>Time</th><th>Source</th><th>Target</th><th>Service</th>
+        <th>Bytes out/in</th><th>Verdict</th><th>Risk</th></tr></thead>
+        <tbody id="event-body"><tr><td colspan="7" class="empty">No flows yet</td></tr></tbody></table>
+    </div>
+  </div>
+  <div class="card">
+    <h3>Attack scenarios observed in this session</h3>
+    <div id="chart-scenario"></div>
+    <div class="hint" style="margin-top:10px">
+      Scenarios come from the Virtual Cyber Range — each is a real-world attack
+      playbook (hping3 SYN flood, nmap scan, hydra brute force, privilege
+      escalation, data exfiltration) with its ground-truth label attached, so
+      the dashboard can measure live precision/recall against reality.
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}<script src="/static/js/dashboard.js"></script>{% endblock %}

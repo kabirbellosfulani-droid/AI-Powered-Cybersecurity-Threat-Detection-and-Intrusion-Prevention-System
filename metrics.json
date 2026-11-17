@@ -1,0 +1,406 @@
+{
+  "holdout_random_split": {
+    "random_forest": {
+      "accuracy": 0.9986,
+      "precision": 0.9995,
+      "recall": 0.9974,
+      "f1_score": 0.9985,
+      "false_positive_rate": 0.0004,
+      "confusion_matrix": {
+        "tn": 13463,
+        "fp": 6,
+        "fn": 30,
+        "tp": 11696
+      },
+      "true_positives": 11696,
+      "false_positives": 6,
+      "false_negatives": 30,
+      "true_negatives": 13463,
+      "roc_auc": 1.0,
+      "model": "RandomForest",
+      "multiclass_accuracy": 0.9986,
+      "macro_f1": 0.9305,
+      "confusion_matrix_multiclass": [
+        [
+          13463,
+          3,
+          1,
+          0,
+          2
+        ],
+        [
+          2,
+          9184,
+          0,
+          0,
+          0
+        ],
+        [
+          21,
+          0,
+          2310,
+          0,
+          0
+        ],
+        [
+          3,
+          0,
+          0,
+          196,
+          0
+        ],
+        [
+          4,
+          0,
+          0,
+          0,
+          6
+        ]
+      ],
+      "labels": [
+        "Normal",
+        "DoS",
+        "Probe",
+        "R2L",
+        "U2R"
+      ],
+      "per_class": {
+        "Normal": {
+          "precision": 0.9977766249166234,
+          "recall": 0.9995545326304848,
+          "f1-score": 0.9986647874786737,
+          "support": 13469.0
+        },
+        "DoS": {
+          "precision": 0.9996734516164145,
+          "recall": 0.9997822773786197,
+          "f1-score": 0.9997278615359495,
+          "support": 9186.0
+        },
+        "Probe": {
+          "precision": 0.9995672868887927,
+          "recall": 0.990990990990991,
+          "f1-score": 0.995260663507109,
+          "support": 2331.0
+        },
+        "R2L": {
+          "precision": 1.0,
+          "recall": 0.9849246231155779,
+          "f1-score": 0.9924050632911392,
+          "support": 199.0
+        },
+        "U2R": {
+          "precision": 0.75,
+          "recall": 0.6,
+          "f1-score": 0.6666666666666666,
+          "support": 10.0
+        },
+        "accuracy": 0.998571145068466,
+        "macro avg": {
+          "precision": 0.9494034726843662,
+          "recall": 0.9150504848231347,
+          "f1-score": 0.9305450084959077,
+          "support": 25195.0
+        },
+        "weighted avg": {
+          "precision": 0.9985530872509689,
+          "recall": 0.998571145068466,
+          "f1-score": 0.9985562230409273,
+          "support": 25195.0
+        }
+      }
+    },
+    "logistic_regression": {
+      "accuracy": 0.9692,
+      "precision": 0.9408,
+      "recall": 0.9967,
+      "f1_score": 0.9679,
+      "false_positive_rate": 0.0546,
+      "confusion_matrix": {
+        "tn": 12733,
+        "fp": 736,
+        "fn": 39,
+        "tp": 11687
+      },
+      "true_positives": 11687,
+      "false_positives": 736,
+      "false_negatives": 39,
+      "true_negatives": 12733,
+      "roc_auc": 0.9978,
+      "model": "LogisticRegression",
+      "multiclass_accuracy": 0.9686,
+      "macro_f1": 0.7064,
+      "confusion_matrix_multiclass": [
+        [
+          12733,
+          25,
+          185,
+          414,
+          112
+        ],
+        [
+          8,
+          9174,
+          4,
+          0,
+          0
+        ],
+        [
+          28,
+          1,
+          2299,
+          1,
+          2
+        ],
+        [
+          3,
+          0,
+          0,
+          188,
+          8
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          10
+        ]
+      ],
+      "labels": [
+        "Normal",
+        "DoS",
+        "Probe",
+        "R2L",
+        "U2R"
+      ],
+      "per_class": {
+        "Normal": {
+          "precision": 0.9969464453492014,
+          "recall": 0.9453560026728042,
+          "f1-score": 0.9704660645554667,
+          "support": 13469.0
+        },
+        "DoS": {
+          "precision": 0.9971739130434782,
+          "recall": 0.9986936642717178,
+          "f1-score": 0.9979332100511259,
+          "support": 9186.0
+        },
+        "Probe": {
+          "precision": 0.9240353697749196,
+          "recall": 0.9862719862719863,
+          "f1-score": 0.954139863042125,
+          "support": 2331.0
+        },
+        "R2L": {
+          "precision": 0.3117744610281924,
+          "recall": 0.9447236180904522,
+          "f1-score": 0.4688279301745636,
+          "support": 199.0
+        },
+        "U2R": {
+          "precision": 0.07575757575757576,
+          "recall": 1.0,
+          "f1-score": 0.14084507042253522,
+          "support": 10.0
+        },
+        "accuracy": 0.9686048819210161,
+        "macro avg": {
+          "precision": 0.6611375529906734,
+          "recall": 0.9750090542613922,
+          "f1-score": 0.7064424276491633,
+          "support": 25195.0
+        },
+        "weighted avg": {
+          "precision": 0.9845063853174562,
+          "recall": 0.9686048819210161,
+          "f1-score": 0.9746785918073975,
+          "support": 25195.0
+        }
+      }
+    },
+    "isolation_forest": {
+      "accuracy": 0.901,
+      "precision": 0.9847,
+      "recall": 0.7998,
+      "f1_score": 0.8826,
+      "false_positive_rate": 0.0108,
+      "confusion_matrix": {
+        "tn": 13323,
+        "fp": 146,
+        "fn": 2348,
+        "tp": 9378
+      },
+      "true_positives": 9378,
+      "false_positives": 146,
+      "false_negatives": 2348,
+      "true_negatives": 13323,
+      "roc_auc": 0.9744,
+      "model": "IsolationForest",
+      "note": "Unsupervised - trained only on normal traffic.",
+      "anomaly_score_stats": {
+        "mean_normal": 0.3772,
+        "mean_attack": 0.5817
+      }
+    }
+  },
+  "official_kddtest_split": {
+    "random_forest": {
+      "accuracy": 0.7488,
+      "precision": 0.9656,
+      "recall": 0.5794,
+      "f1_score": 0.7243,
+      "false_positive_rate": 0.0273,
+      "confusion_matrix": {
+        "tn": 9446,
+        "fp": 265,
+        "fn": 5397,
+        "tp": 7436
+      },
+      "true_positives": 7436,
+      "false_positives": 265,
+      "false_negatives": 5397,
+      "true_negatives": 9446,
+      "roc_auc": 0.9665,
+      "model": "RandomForest",
+      "multiclass_accuracy": 0.7398,
+      "macro_f1": 0.4849,
+      "confusion_matrix_multiclass": [
+        [
+          9446,
+          67,
+          197,
+          0,
+          1
+        ],
+        [
+          1662,
+          5767,
+          31,
+          0,
+          0
+        ],
+        [
+          808,
+          164,
+          1449,
+          0,
+          0
+        ],
+        [
+          2863,
+          0,
+          6,
+          14,
+          2
+        ],
+        [
+          64,
+          0,
+          0,
+          0,
+          3
+        ]
+      ],
+      "labels": [
+        "Normal",
+        "DoS",
+        "Probe",
+        "R2L",
+        "U2R"
+      ],
+      "per_class": {
+        "Normal": {
+          "precision": 0.6363942599205012,
+          "recall": 0.972711358253527,
+          "f1-score": 0.7694062067280281,
+          "support": 9711.0
+        },
+        "DoS": {
+          "precision": 0.9614871623874625,
+          "recall": 0.7730563002680965,
+          "f1-score": 0.8570367067914995,
+          "support": 7460.0
+        },
+        "Probe": {
+          "precision": 0.8609625668449198,
+          "recall": 0.5985130111524164,
+          "f1-score": 0.706140350877193,
+          "support": 2421.0
+        },
+        "R2L": {
+          "precision": 1.0,
+          "recall": 0.004852686308492201,
+          "f1-score": 0.009658502932045532,
+          "support": 2885.0
+        },
+        "U2R": {
+          "precision": 0.5,
+          "recall": 0.04477611940298507,
+          "f1-score": 0.0821917808219178,
+          "support": 67.0
+        },
+        "accuracy": 0.7398420865862314,
+        "macro avg": {
+          "precision": 0.7917687978305767,
+          "recall": 0.4787818950771034,
+          "f1-score": 0.4848867096301368,
+          "support": 22544.0
+        },
+        "weighted avg": {
+          "precision": 0.8142126181613738,
+          "recall": 0.7398420865862314,
+          "f1-score": 0.69234097435895,
+          "support": 22544.0
+        }
+      }
+    },
+    "isolation_forest": {
+      "accuracy": 0.744,
+      "precision": 0.9803,
+      "recall": 0.5616,
+      "f1_score": 0.7141,
+      "false_positive_rate": 0.0149,
+      "confusion_matrix": {
+        "tn": 9566,
+        "fp": 145,
+        "fn": 5626,
+        "tp": 7207
+      },
+      "true_positives": 7207,
+      "false_positives": 145,
+      "false_negatives": 5626,
+      "true_negatives": 9566,
+      "roc_auc": 0.9405,
+      "model": "IsolationForest",
+      "note": "Unsupervised - trained only on normal traffic.",
+      "anomaly_score_stats": {
+        "mean_normal": 0.3613,
+        "mean_attack": 0.5348
+      }
+    }
+  },
+  "hybrid_detector": {
+    "hybrid_ml_or_anomaly": {
+      "accuracy": 0.9986,
+      "precision": 0.9995,
+      "recall": 0.9974,
+      "f1_score": 0.9985,
+      "false_positive_rate": 0.0004,
+      "confusion_matrix": {
+        "tn": 13463,
+        "fp": 6,
+        "fn": 30,
+        "tp": 11696
+      },
+      "true_positives": 11696,
+      "false_positives": 6,
+      "false_negatives": 30,
+      "true_negatives": 13463,
+      "roc_auc": 1.0,
+      "model": "Hybrid (RandomForest OR IsolationForest)",
+      "note": "OR-voting maximises recall - the SOC priority."
+    }
+  }
+}

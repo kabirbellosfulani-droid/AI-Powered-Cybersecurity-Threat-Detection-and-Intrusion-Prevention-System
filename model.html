@@ -1,0 +1,93 @@
+{% extends "layout.html" %}
+{% block title %}Model Intelligence{% endblock %}
+{% block heading %}Model Intelligence &amp; Evaluation{% endblock %}
+{% block subheading %}Three-layer detection stack · offline benchmark results · explainability{% endblock %}
+
+{% block content %}
+<div class="grid g3">
+  <div class="card">
+    <h3>Layer 1 · Threat classifier</h3>
+    <div class="kv">
+      <span class="k">Algorithm</span><span class="v" id="m-algo">RandomForestClassifier</span>
+      <span class="k">Trees</span><span class="v" id="m-trees">200</span>
+      <span class="k">Task</span><span class="v">5-class (Normal/DoS/Probe/R2L/U2R)</span>
+      <span class="k">Input</span><span class="v" id="m-feats">135 encoded features</span>
+      <span class="k">Training rows</span><span class="v" id="m-rows">—</span>
+      <span class="k">Version</span><span class="v" id="m-ver">—</span>
+    </div>
+    <div class="hint" style="margin-top:10px">Every alert shows the classifier's confidence, so analysts can triage by certainty.</div>
+  </div>
+  <div class="card">
+    <h3>Layer 2 · Anomaly detector</h3>
+    <div class="kv">
+      <span class="k">Algorithm</span><span class="v">IsolationForest</span>
+      <span class="k">Trained on</span><span class="v">NORMAL traffic only</span>
+      <span class="k">Alert threshold</span><span class="v" id="m-thr">—</span>
+      <span class="k">Purpose</span><span class="v">unknown / zero-day behaviour</span>
+    </div>
+    <div class="hint" style="margin-top:10px">
+      Supervised models can only detect attacks they were trained on. The anomaly
+      layer learns what <b>normal</b> looks like and screams when traffic deviates —
+      the closest a student project gets to zero-day detection with public data.
+    </div>
+  </div>
+  <div class="card">
+    <h3>Layer 3 · Signature correlation</h3>
+    <div class="kv">
+      <span class="k">Rules</span><span class="v">14 transparent indicators</span>
+      <span class="k">Examples</span><span class="v">brute force, SYN flood, scan, exfil</span>
+      <span class="k">Purpose</span><span class="v">human-readable evidence</span>
+    </div>
+    <div class="hint" style="margin-top:10px">
+      Mirrors how Suricata/Snort rules work: thresholds on raw fields. Two
+      supporting rules (or one strong rule) can raise an alert even when the ML
+      models are not confident — exactly the "defence in depth" idea.
+    </div>
+  </div>
+</div>
+
+<h3 class="section-title">Offline benchmark results (NSL-KDD)</h3>
+<div class="grid g2">
+  <div class="card">
+    <h3>Hold-out split (20% of KDDTrain+, 25,195 flows)</h3>
+    <div class="scroll" style="max-height:none">
+      <table id="t-holdout"><thead><tr><th>Model</th><th>Accuracy</th><th>Precision</th>
+        <th>Recall</th><th>F1</th><th>FPR</th><th>ROC-AUC</th></tr></thead><tbody></tbody></table>
+    </div>
+    <div class="hint" style="margin-top:8px">All metrics computed on the <b>binary attack/no-attack</b> framing,
+      which is what SOC alerting actually cares about.</div>
+  </div>
+  <div class="card">
+    <h3>Official KDDTest+ split <span class="hint">— contains 17 attack types never seen in training</span></h3>
+    <div class="scroll" style="max-height:none">
+      <table id="t-official"><thead><tr><th>Model</th><th>Accuracy</th><th>Precision</th>
+        <th>Recall</th><th>F1</th><th>FPR</th><th>ROC-AUC</th></tr></thead><tbody></tbody></table>
+    </div>
+    <div class="hint" style="margin-top:8px">A deliberately harder, realistic test of generalisation.
+      Quoting this number in an interview shows you understand the dataset's pitfalls
+      instead of only reporting the easy 99%.</div>
+  </div>
+</div>
+
+<div class="grid g2" style="margin-top:14px">
+  <div class="card">
+    <h3>Per-class quality (Random Forest, hold-out)</h3>
+    <div id="perclass"></div>
+  </div>
+  <div class="card">
+    <h3>Top feature importances</h3>
+    <div id="features"></div>
+    <div class="hint" style="margin-top:8px">Green labels are features this project <b>engineered</b>
+      (bytes ratio, DoS intensity, host-scan ratio, login anomaly…) — proof of domain knowledge, not just model.fit().</div>
+  </div>
+</div>
+
+<h3 class="section-title">Generated evidence figures</h3>
+<div class="card">
+  <div class="hint" style="margin-bottom:12px">Produced by <span class="tag">python src/visualize.py</span> — these are the
+    same images committed to <span class="tag">/images</span> and embedded in the GitHub README.</div>
+  <div class="grid g3" id="gallery"></div>
+</div>
+{% endblock %}
+
+{% block scripts %}<script src="/static/js/model.js"></script>{% endblock %}

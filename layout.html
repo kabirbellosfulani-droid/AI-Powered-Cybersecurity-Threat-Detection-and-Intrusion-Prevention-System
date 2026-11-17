@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>{% block title %}Sentinel SOC{% endblock %} · AI Threat Detection Console</title>
+<link rel="stylesheet" href="/static/css/style.css"/>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛡️</text></svg>"/>
+</head>
+<body>
+<div class="shell">
+  <aside class="sidebar">
+    <div class="brand">
+      <svg width="30" height="30" viewBox="0 0 24 24" fill="none">
+        <path d="M12 2 4 5.5v6.2c0 4.6 3.2 8.4 8 10.3 4.8-1.9 8-5.7 8-10.3V5.5L12 2Z"
+              stroke="#00e5a0" stroke-width="1.6" fill="rgba(0,229,160,.12)"/>
+        <path d="M8.4 12.2l2.4 2.4 4.8-5" stroke="#00e5a0" stroke-width="1.8"
+              stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <div>
+        <div class="t1">SENTINEL&nbsp;SOC</div>
+        <div class="t2">AI Threat Detection</div>
+      </div>
+    </div>
+    <nav class="nav">
+      <a href="/" class="{{ 'on' if active=='dashboard' }}"><span class="ico">◉</span> Live Dashboard</a>
+      <a href="/range" class="{{ 'on' if active=='range' }}"><span class="ico">⚔</span> Virtual Cyber Range</a>
+      <a href="/model" class="{{ 'on' if active=='model' }}"><span class="ico">⌁</span> Model Intelligence</a>
+      <a href="/docs" class="{{ 'on' if active=='docs' }}"><span class="ico">⌘</span> API &amp; Docs</a>
+    </nav>
+    <div class="foot">
+      <div style="margin-bottom:6px"><span class="dot"></span> <span id="health-status">engine online</span></div>
+      <div class="mono" style="font-size:10.5px;line-height:1.7">
+        model v<span id="model-ver">…</span><br/>
+        NSL-KDD 41 → <span id="feat-count">135</span> features<br/>
+        RF + IsolationForest + Rules
+      </div>
+    </div>
+  </aside>
+
+  <div class="main">
+    <header class="topbar">
+      <div>
+        <h1>{% block heading %}Security Operations Centre{% endblock %}</h1>
+        <div class="sub">{% block subheading %}AI-powered network intrusion detection{% endblock %}</div>
+      </div>
+      <div class="topbar-right">{% block topbar %}{% endblock %}
+        <span class="pill fw">engine v{{ '' }}</span>
+        <span class="pill {{ 'live' if active=='dashboard' else 'paused' }}" id="clock" style="font-family:var(--mono)">--:--:--</span>
+      </div>
+    </header>
+    <main class="content">{% block content %}{% endblock %}</main>
+  </div>
+</div>
+<div class="toast-wrap" id="toasts"></div>
+<script src="/static/js/charts.js"></script>
+<script src="/static/js/common.js"></script>
+{% block scripts %}{% endblock %}
+</body>
+</html>

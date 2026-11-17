@@ -1,0 +1,40 @@
+# ============================================================
+#  AI-Powered Cybersecurity Threat Detection System
+#  Python 3.9 - 3.13
+#  Install:  pip install -r requirements.txt
+# ============================================================
+
+# --- core data stack ----------------------------------------
+pandas>=2.0,<3.0
+numpy>=1.24,<3.0
+scikit-learn>=1.3,<2.0
+joblib>=1.3
+scipy>=1.10
+
+# --- visualisation ------------------------------------------
+matplotlib>=3.7
+seaborn>=0.12
+
+# --- SOC dashboard (Flask API + web console) -----------------
+flask>=3.0
+werkzeug>=3.0
+
+# --- notebook / EDA -----------------------------------------
+jupyter>=1.0
+ipykernel>=6.25
+
+# --- testing ------------------------------------------------
+pytest>=7.4
+
+# ------------------------------------------------------------
+# OPTIONAL EXTRAS (uncomment what you need)
+# ------------------------------------------------------------
+# xgboost>=2.0            # gradient boosting alternative
+# lightgbm>=4.0           # faster boosted trees
+# shap>=0.44              # explainable AI (SHAP values per alert)
+# scapy>=2.5              # LIVE packet capture from your own NIC
+# pyshark>=0.6            # parse .pcap files (Wireshark engine)
+# imbalanced-learn>=0.12  # SMOTE / resampling for rare U2R/R2L classes
+# requests>=2.31          # POST alerts to Slack / Teams / SIEM webhooks
+# gunicorn>=21.2          # production WSGI server for deployment
+# streamlit>=1.32         # alternative quick dashboard

@@ -1,0 +1,7 @@
+evaluation_scope,model,accuracy,precision,recall,f1_score,false_positive_rate,roc_auc
+holdout_random_split,RandomForest,0.9986,0.9995,0.9974,0.9985,0.0004,1.0
+holdout_random_split,LogisticRegression,0.9692,0.9408,0.9967,0.9679,0.0546,0.9978
+holdout_random_split,IsolationForest,0.901,0.9847,0.7998,0.8826,0.0108,0.9744
+official_kddtest_split,RandomForest,0.7488,0.9656,0.5794,0.7243,0.0273,0.9665
+official_kddtest_split,IsolationForest,0.744,0.9803,0.5616,0.7141,0.0149,0.9405
+hybrid_detector,Hybrid (RandomForest OR IsolationForest),0.9986,0.9995,0.9974,0.9985,0.0004,1.0

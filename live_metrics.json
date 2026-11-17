@@ -1,0 +1,81 @@
+{
+  "events_scored": 2000,
+  "true_attacks": 365,
+  "true_benign": 1635,
+  "alerts_raised": 435,
+  "precision": 0.8391,
+  "recall": 1.0,
+  "f1_score": 0.9125,
+  "accuracy": 0.965,
+  "confusion_matrix": [
+    [
+      1565,
+      70
+    ],
+    [
+      0,
+      365
+    ]
+  ],
+  "detection_rate_by_scenario": {
+    "Data Exfiltration Burst (U2R)": {
+      "events": 8,
+      "detected": 8,
+      "rate_pct": 100.0
+    },
+    "FTP Password Guessing (R2L)": {
+      "events": 34,
+      "detected": 34,
+      "rate_pct": 100.0
+    },
+    "HTTP Flood / CC Attack (DoS)": {
+      "events": 39,
+      "detected": 39,
+      "rate_pct": 100.0
+    },
+    "Local Privilege Escalation (U2R)": {
+      "events": 23,
+      "detected": 23,
+      "rate_pct": 100.0
+    },
+    "Ping Sweep / Host Discovery (Probe)": {
+      "events": 43,
+      "detected": 43,
+      "rate_pct": 100.0
+    },
+    "SSH Brute Force (R2L)": {
+      "events": 42,
+      "detected": 42,
+      "rate_pct": 100.0
+    },
+    "SYN Flood (DoS)": {
+      "events": 57,
+      "detected": 57,
+      "rate_pct": 100.0
+    },
+    "Stealth Port Scan (Probe)": {
+      "events": 72,
+      "detected": 72,
+      "rate_pct": 100.0
+    },
+    "Web App Probe / Injection (R2L)": {
+      "events": 47,
+      "detected": 47,
+      "rate_pct": 100.0
+    }
+  },
+  "severity_breakdown": {
+    "HIGH": 339,
+    "MEDIUM": 80,
+    "CRITICAL": 14,
+    "LOW": 2
+  },
+  "top_talkers": {
+    "172.16.0.215": 6,
+    "192.168.1.73": 4,
+    "172.16.0.66": 4,
+    "203.0.113.29": 4,
+    "203.0.113.67": 3
+  },
+  "family_report": null
+}

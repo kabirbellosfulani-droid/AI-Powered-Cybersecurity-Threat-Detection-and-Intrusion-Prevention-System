@@ -1,0 +1,186 @@
+{% extends "layout.html" %}
+{% block title %}API &amp; Docs{% endblock %}
+{% block heading %}API Reference &amp; Analyst Playground{% endblock %}
+{% block subheading %}Score any network flow by hand · integrate the engine into your own tools{% endblock %}
+
+{% block content %}
+<div class="grid g32">
+  <div class="card">
+    <h3>🔎 Manual threat hunt — score a single flow</h3>
+    <div class="row" style="margin-bottom:12px">
+      <button class="btn sm" data-preset="normal">Benign web browsing</button>
+      <button class="btn sm" data-preset="ssh">SSH brute force</button>
+      <button class="btn sm" data-preset="syn">SYN flood</button>
+      <button class="btn sm" data-preset="scan">Port scan</button>
+      <button class="btn sm" data-preset="u2r">Privilege escalation</button>
+    </div>
+    <div class="grid g3" style="gap:10px">
+      <div class="field"><label>duration</label><input id="f-duration" type="number" value="0"/></div>
+      <div class="field"><label>protocol_type</label>
+        <select id="f-protocol_type"><option>tcp</option><option>udp</option><option>icmp</option></select></div>
+      <div class="field"><label>service</label>
+        <select id="f-service">
+          <option>http</option><option>https</option><option>ssh</option><option>ftp</option>
+          <option>smtp</option><option>domain</option><option>telnet</option><option>private</option>
+          <option>ftp_data</option><option>sql_net</option>
+        </select></div>
+      <div class="field"><label>flag</label>
+        <select id="f-flag"><option>SF</option><option>S0</option><option>REJ</option><option>RSTO</option><option>SH</option></select></div>
+      <div class="field"><label>src_bytes</label><input id="f-src_bytes" type="number" value="215"/></div>
+      <div class="field"><label>dst_bytes</label><input id="f-dst_bytes" type="number" value="4500"/></div>
+      <div class="field"><label>count</label><input id="f-count" type="number" value="1"/></div>
+      <div class="field"><label>srv_count</label><input id="f-srv_count" type="number" value="1"/></div>
+      <div class="field"><label>num_failed_logins</label><input id="f-num_failed_logins" type="number" value="0"/></div>
+      <div class="field"><label>logged_in</label><input id="f-logged_in" type="number" value="1"/></div>
+      <div class="field"><label>serror_rate</label><input id="f-serror_rate" type="number" step="0.01" value="0"/></div>
+      <div class="field"><label>rerror_rate</label><input id="f-rerror_rate" type="number" step="0.01" value="0"/></div>
+      <div class="field"><label>diff_srv_rate</label><input id="f-diff_srv_rate" type="number" step="0.01" value="0"/></div>
+      <div class="field"><label>dst_host_count</label><input id="f-dst_host_count" type="number" value="8"/></div>
+      <div class="field"><label>root_shell</label><input id="f-root_shell" type="number" value="0"/></div>
+      <div class="field"><label>num_compromised</label><input id="f-num_compromised" type="number" value="0"/></div>
+      <div class="field"><label>hot</label><input id="f-hot" type="number" value="0"/></div>
+    </div>
+    <button class="btn primary" id="score-btn" style="margin-top:6px">▶ Score this flow</button>
+  </div>
+
+  <div class="card">
+    <h3>Engine verdict</h3>
+    <div id="verdict-box" class="verdict clean">
+      <div class="empty">Submit a flow to see the AI verdict, evidence and response playbook.</div>
+    </div>
+  </div>
+</div>
+
+<h3 class="section-title">REST API</h3>
+<div class="grid g2">
+  <div class="card">
+    <h3>Endpoints</h3>
+    <table>
+      <thead><tr><th>Method</th><th>Path</th><th>Purpose</th></tr></thead>
+      <tbody>
+        <tr><td class="mono">GET</td><td class="mono">/api/health</td><td>service &amp; model status</td></tr>
+        <tr><td class="mono">GET</td><td class="mono">/api/summary</td><td>KPIs, severity mix, confusion matrix</td></tr>
+        <tr><td class="mono">GET</td><td class="mono">/api/alerts?limit=50</td><td>latest SOC alerts</td></tr>
+        <tr><td class="mono">GET</td><td class="mono">/api/events?attacks_only=true</td><td>scored flows</td></tr>
+        <tr><td class="mono">GET</td><td class="mono">/api/series</td><td>time-series for charts</td></tr>
+        <tr><td class="mono">GET</td><td class="mono">/api/model</td><td>model metadata + metrics</td></tr>
+        <tr><td class="mono">GET</td><td class="mono">/api/features</td><td>feature importances</td></tr>
+        <tr><td class="mono">GET</td><td class="mono">/api/scenarios</td><td>attack playbook library</td></tr>
+        <tr><td class="mono">POST</td><td class="mono">/api/stream/next</td><td>score the next N live events</td></tr>
+        <tr><td class="mono">POST</td><td class="mono">/api/simulate</td><td>run a cyber-range exercise</td></tr>
+        <tr><td class="mono">POST</td><td class="mono">/api/predict</td><td>score one hand-crafted flow</td></tr>
+        <tr><td class="mono">POST</td><td class="mono">/api/reset</td><td>clear live state</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="card">
+    <h3>Copy-paste examples</h3>
+    <pre><span class="hl"># health check</span>
+curl http://127.0.0.1:5000/api/health
+
+<span class="hl"># run a 2000-flow exercise at 20% attack rate</span>
+curl -X POST http://127.0.0.1:5000/api/simulate \
+  -H "Content-Type: application/json" \
+  -d '{"n_events": 2000, "attack_rate": 0.20, "seed": 42}'
+
+<span class="hl"># score an SSH brute-force flow by hand</span>
+curl -X POST http://127.0.0.1:5000/api/predict \
+  -H "Content-Type: application/json" \
+  -d '{"service":"ssh","num_failed_logins":6,
+       "logged_in":0,"src_bytes":120,"dst_bytes":60,
+       "count":20,"srv_count":20,"flag":"S0"}'</pre>
+    <h3 style="margin-top:16px">Send alerts to the real world</h3>
+    <pre># Slack / Teams / Discord webhook
+webhook = "https://hooks.slack.com/services/XXX"
+if alert['severity'] in ("CRITICAL", "HIGH"):
+    requests.post(webhook, json={"text":
+        f":rotating_light: {alert['severity']} {alert['threat_class']} "
+        f"{alert['src_ip']} -> {alert['dst_ip']}"})</pre>
+  </div>
+</div>
+
+<h3 class="section-title">How to extend this project (interview ammunition)</h3>
+<div class="grid g3">
+  <div class="card"><h3>Real traffic</h3><div class="mini">
+    Swap <span class="tag">TrafficSimulator</span> for Scapy capture
+    (<span class="tag">sniff(prn=handler)</span>), a Zeek/Suricata
+    <span class="tag">eve.json</span> tail, or <span class="tag">pyshark</span>.
+    The detection layer needs zero changes — it already accepts any DataFrame
+    with the 41 NSL-KDD fields downstream of feature engineering.</div></div>
+  <div class="card"><h3>SIEM integration</h3><div class="mini">
+    Ship alerts to Elastic/OpenSearch (ECS format), Splunk HEC or Wazuh.
+    Add a <span class="tag">/api/alerts</span> webhook consumer and map our
+    fields to ECS: <span class="tag">source.ip</span>,
+    <span class="tag">event.severity</span>, <span class="tag">threat.technique.id</span>.</div></div>
+  <div class="card"><h3>Modelling upgrades</h3><div class="mini">
+    Try XGBoost/LightGBM, an autoencoder for reconstruction-error anomaly
+    detection, or LSTM over flow sequences (time-aware). Compare with the
+    baseline table on the Model Intelligence page and keep the winner.</div></div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+const PRESETS = {
+  normal: {duration:2, protocol_type:'tcp', service:'http', flag:'SF', src_bytes:215,
+    dst_bytes:4500, count:1, srv_count:1, num_failed_logins:0, logged_in:1,
+    serror_rate:0, rerror_rate:0, diff_srv_rate:0, dst_host_count:8, root_shell:0,
+    num_compromised:0, hot:0},
+  ssh: {duration:2, protocol_type:'tcp', service:'ssh', flag:'S0', src_bytes:120,
+    dst_bytes:60, count:20, srv_count:20, num_failed_logins:6, logged_in:0,
+    serror_rate:0.1, rerror_rate:0, diff_srv_rate:0.02, dst_host_count:20,
+    root_shell:0, num_compromised:0, hot:0},
+  syn: {duration:0, protocol_type:'tcp', service:'http', flag:'S0', src_bytes:0,
+    dst_bytes:0, count:511, srv_count:511, num_failed_logins:0, logged_in:0,
+    serror_rate:1.0, rerror_rate:0, diff_srv_rate:0, dst_host_count:255,
+    root_shell:0, num_compromised:0, hot:0},
+  scan: {duration:0, protocol_type:'tcp', service:'private', flag:'REJ', src_bytes:0,
+    dst_bytes:0, count:250, srv_count:12, num_failed_logins:0, logged_in:0,
+    serror_rate:0, rerror_rate:0.7, diff_srv_rate:0.92, dst_host_count:255,
+    root_shell:0, num_compromised:0, hot:0},
+  u2r: {duration:180, protocol_type:'tcp', service:'telnet', flag:'SF', src_bytes:2600,
+    dst_bytes:900, count:4, srv_count:4, num_failed_logins:0, logged_in:1,
+    serror_rate:0, rerror_rate:0, diff_srv_rate:0.02, dst_host_count:10,
+    root_shell:1, num_compromised:3, hot:4}
+};
+$$('[data-preset]').forEach(b => b.onclick = () => {
+  const p = PRESETS[b.dataset.preset];
+  Object.entries(p).forEach(([k, v]) => { const el = $('#f-' + k); if (el) el.value = v; });
+});
+
+$('#score-btn').onclick = async () => {
+  const fields = ['duration','protocol_type','service','flag','src_bytes','dst_bytes','count',
+    'srv_count','num_failed_logins','logged_in','serror_rate','rerror_rate','diff_srv_rate',
+    'dst_host_count','root_shell','num_compromised','hot'];
+  const payload = {};
+  fields.forEach(f => {
+    const el = $('#f-' + f);
+    payload[f] = el.type === 'number' ? Number(el.value) : el.value;
+  });
+  const btn = $('#score-btn'); btn.disabled = true; btn.textContent = '⏳ scoring…';
+  try {
+    const res = await post('/api/predict', payload);
+    const v = res.verdict;
+    const attacked = v.is_attack === 1;
+    $('#verdict-box').className = 'verdict ' + (attacked ? 'attacked' : 'clean');
+    $('#verdict-box').innerHTML = `
+      <div class="row sp"><span class="big" style="color:${attacked ? '#ff4d5e' : '#00e5a0'}">
+        ${attacked ? '⚠ THREAT DETECTED' : '✓ BENIGN'}</span>${chip(v.severity)}</div>
+      <div class="kv" style="margin-top:12px">
+        <span class="k">Classification</span><span class="v">${classTag(v.threat_class)}</span>
+        <span class="k">Risk score</span><span class="v">${v.risk_score} / 100</span>
+        <span class="k">Confidence</span><span class="v">${(100 * v.confidence).toFixed(1)}%</span>
+        <span class="k">Anomaly score</span><span class="v">${v.anomaly_score}</span>
+        <span class="k">MITRE ATT&amp;CK</span><span class="v">${esc(v.mitre)}</span>
+        <span class="k">Evidence</span><span class="v" style="font-family:Inter">${esc(v.reason)}</span>
+      </div>
+      <div style="margin-top:12px;padding-top:12px;border-top:1px dashed #28395c">
+        <div class="mini" style="text-transform:uppercase;letter-spacing:.08em;color:#5f7398">Recommended response</div>
+        <div style="margin-top:4px">${esc(v.recommended_action)}</div>
+      </div>`;
+    toast(attacked ? `${v.severity} · ${v.threat_class}` : 'Flow cleared',
+      attacked ? v.reason.split(';')[0] : 'No malicious indicators found.', attacked ? '#ff4d5e' : '#00e5a0');
+  } finally { btn.disabled = false; btn.textContent = '▶ Score this flow'; }
+};
+</script>
+{% endblock %}

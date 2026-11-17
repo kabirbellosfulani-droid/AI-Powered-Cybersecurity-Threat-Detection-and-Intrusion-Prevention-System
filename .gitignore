@@ -1,0 +1,90 @@
+# ---------------------------------------------------------------
+#  Python
+# ---------------------------------------------------------------
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# ---------------------------------------------------------------
+#  Virtual environments
+# ---------------------------------------------------------------
+.venv/
+venv/
+env/
+ENV/
+.python-version
+
+# ---------------------------------------------------------------
+#  Jupyter
+# ---------------------------------------------------------------
+.ipynb_checkpoints/
+*.ipynb_checkpoints
+.pytest_cache/
+.coverage
+htmlcov/
+
+# ---------------------------------------------------------------
+#  Large datasets - DO NOT COMMIT (GitHub caps files at 100 MB).
+#  Keep data/raw empty in the repo; the download script recreates it.
+#  (Delete the next line if you upload the dataset via Git LFS.)
+# ---------------------------------------------------------------
+data/raw/*
+!data/raw/.gitkeep
+*.csv
+!outputs/model_comparison.csv
+!outputs/live_metrics.json
+!outputs/dataset_summary.json
+
+# keep the small deliverables
+!outputs/alerts.csv
+!data/processed/dataset_preview.csv
+
+# ---------------------------------------------------------------
+#  Model binaries - regenerate with `python main.py train`
+#  (Commit them only if you want recruiters to run the API instantly;
+#   the IsolationForest + RF are ~10 MB together.)
+# ---------------------------------------------------------------
+# models/*.joblib   <-- ~23 MB total; committed by default so the demo runs instantly.
+# Uncomment the line above if you prefer to keep the repo slim.
+
+# ---------------------------------------------------------------
+#  Editor / OS noise
+# ---------------------------------------------------------------
+.vscode/
+.idea/
+*.swp
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ---------------------------------------------------------------
+#  Secrets - NEVER commit credentials
+# ---------------------------------------------------------------
+.env
+*.env
+secrets.json
+config.local.yaml
+!config.example.yaml
+
+# ---------------------------------------------------------------
+#  GitHub Workflows (preserved in ci-workflow.yml)
+# ---------------------------------------------------------------
+.github/workflows/
+
